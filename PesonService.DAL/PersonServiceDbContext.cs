@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PersonService.Common.Security;
 using PesonService.DAL.Entity;
 
 namespace PesonService.DAL
@@ -7,10 +8,30 @@ namespace PesonService.DAL
     {
         public PersonServiceDbContext() : base()
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         public DbSet<PersonEntity> Persons { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<AccessPointEntity> AccessPoints { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AccessPointEntity>().HasData(new []
+            {
+                new AccessPointEntity { 
+                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.PersonController), 
+                    ControllerName = "PersonController" 
+                },
+                new AccessPointEntity 
+                { 
+                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.SecurityController), 
+                    ControllerName = "SecurityController" 
+                }
+            });
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -4,12 +4,14 @@ using PersonService.BLL.Service;
 
 namespace PersonService
 {
-    public static class DependecyInjection
+    public static class DependecyInjectionBLL
     {
         public static void AddBllServices(this IServiceCollection services)
         {
             services.AddScoped<IPersonService, BLL.Service.PersonService>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+            services.AddScoped<IUserService, UserService>();
+
             services.AddDalServices();
         }
     }

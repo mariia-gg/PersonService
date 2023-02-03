@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PesonService.DAL;
 
@@ -11,9 +12,11 @@ using PesonService.DAL;
 namespace PesonService.DAL.Migrations
 {
     [DbContext(typeof(PersonServiceDbContext))]
-    partial class PersonServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230203191335_AddedAccessPointsTable")]
+    partial class AddedAccessPointsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,12 +35,6 @@ namespace PesonService.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.ToTable("AccessPoints");
@@ -46,16 +43,12 @@ namespace PesonService.DAL.Migrations
                         new
                         {
                             Id = new Guid("01e31986-e9e4-4507-9a52-02aa4ffa2079"),
-                            ControllerName = "PersonController",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ControllerName = "PersonController"
                         },
                         new
                         {
                             Id = new Guid("c8280d0c-fbba-4167-baf8-3250fcc14aa6"),
-                            ControllerName = "SecurityController",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifiedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            ControllerName = "SecurityController"
                         });
                 });
 
@@ -84,33 +77,6 @@ namespace PesonService.DAL.Migrations
                     b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("PesonService.DAL.Entity.UserAccessPointEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AccessPointId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccessPointId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserAccessPointEntity");
-                });
-
             modelBuilder.Entity("PesonService.DAL.Entity.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -135,35 +101,6 @@ namespace PesonService.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("PesonService.DAL.Entity.UserAccessPointEntity", b =>
-                {
-                    b.HasOne("PesonService.DAL.Entity.AccessPointEntity", "AccessPoint")
-                        .WithMany("UserAccessPoints")
-                        .HasForeignKey("AccessPointId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PesonService.DAL.Entity.UserEntity", "User")
-                        .WithMany("UserAccessPoints")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AccessPoint");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("PesonService.DAL.Entity.AccessPointEntity", b =>
-                {
-                    b.Navigation("UserAccessPoints");
-                });
-
-            modelBuilder.Entity("PesonService.DAL.Entity.UserEntity", b =>
-                {
-                    b.Navigation("UserAccessPoints");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using PersonService.Configuration;
+using PersonService.Helpers;
 using PesonService.DAL;
 
 namespace PersonService
@@ -7,6 +9,11 @@ namespace PersonService
     {
         public static void RegisterDependencies(WebApplicationBuilder builder)
         {
+            var jwtConfig = builder.Configuration.GetSection("Jwt").Get<JwtConfiguration>();
+
+            builder.Services.AddSingleton(jwtConfig);
+            builder.Services.AddSingleton<ISecurityHelper, SecurityHelper>();
+
             builder.Services.AddBllServices();
         }
 

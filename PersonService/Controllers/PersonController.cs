@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonService.BLL.Contract;
 using PersonService.BLL.DTO;
@@ -8,6 +9,7 @@ namespace PersonService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PersonController : ControllerBase
     {
         private readonly IPersonService _personService;

@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonService", "PersonService\PersonService.csproj", "{81CE9425-2C15-454E-A15C-AA1CBC62E8A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonService", "PersonService\PersonService.csproj", "{81CE9425-2C15-454E-A15C-AA1CBC62E8A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PesonService.DAL", "PesonService.DAL\PesonService.DAL.csproj", "{0F7BA78F-CF2A-40CC-9CD6-12B774BD2772}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PesonService.DAL", "PesonService.DAL\PesonService.DAL.csproj", "{0F7BA78F-CF2A-40CC-9CD6-12B774BD2772}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonService.BLL", "PersonService.BLL\PersonService.BLL.csproj", "{4D4CA1CF-C2DF-4DC4-9FA7-7D4F7217C562}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonService.BLL", "PersonService.BLL\PersonService.BLL.csproj", "{4D4CA1CF-C2DF-4DC4-9FA7-7D4F7217C562}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonService.Common", "PersonService.Common\PersonService.Common.csproj", "{94A36BF5-1FE7-43DA-9895-B9FE5B2E32E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{4D4CA1CF-C2DF-4DC4-9FA7-7D4F7217C562}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D4CA1CF-C2DF-4DC4-9FA7-7D4F7217C562}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D4CA1CF-C2DF-4DC4-9FA7-7D4F7217C562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A36BF5-1FE7-43DA-9895-B9FE5B2E32E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A36BF5-1FE7-43DA-9895-B9FE5B2E32E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A36BF5-1FE7-43DA-9895-B9FE5B2E32E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A36BF5-1FE7-43DA-9895-B9FE5B2E32E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
