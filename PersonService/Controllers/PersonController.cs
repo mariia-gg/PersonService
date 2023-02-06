@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PersonService.Attributes;
 using PersonService.BLL.Contract;
 using PersonService.BLL.DTO;
+using PersonService.Common.Security;
 using PersonService.Model;
 
 namespace PersonService.Controllers
@@ -23,6 +25,7 @@ namespace PersonService.Controllers
 
 
         [HttpGet]
+        [RequiredAccessPoints(AccessPoint.PersonController)]
         public async Task<IEnumerable<PersonCreateViewModel>> GetAll(CancellationToken cancellationToken)
         {
             return _mapper.Map<IEnumerable<PersonCreateViewModel>>(await _personService.GetAllAsync(cancellationToken));
@@ -35,11 +38,5 @@ namespace PersonService.Controllers
 
             return id;
         }
-
-        //[HttpGet("{id}")]
-        //public IActionResult Get(Guid id)
-        //{
-        //    return Ok(null);
-        //}
     }
 }

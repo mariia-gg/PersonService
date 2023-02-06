@@ -1,7 +1,10 @@
-﻿namespace PersonService.BLL.Contract
+﻿using PersonService.Common.Security;
+
+namespace PersonService.BLL.Contract
 {
     public interface IUserService
     {
-        Task<bool> IsValidUser(string userName, string password, CancellationToken cancellationToken);
+        bool IsValidUser(string userName, string password);
+        bool HasAccessPoint(string userName, AccessPoint accessPoint);
     }
 }

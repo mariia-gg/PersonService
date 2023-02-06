@@ -9,6 +9,7 @@ namespace PersonService.Helpers
     public class SecurityHelper : ISecurityHelper
     {
         private readonly JwtConfiguration _jwtConfiguration;
+        private const string _idClaim = "Id";
 
         public SecurityHelper(JwtConfiguration jwtConfiguration)
         {
@@ -23,7 +24,7 @@ namespace PersonService.Helpers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                        new Claim("Id", Guid.NewGuid().ToString()),
+                        new Claim(_idClaim, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Sub, userName),
                         new Claim(JwtRegisteredClaimNames.Email, userName),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -37,9 +38,19 @@ namespace PersonService.Helpers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var jwtToken = tokenHandler.WriteToken(token);
-            var stringToken = tokenHandler.WriteToken(token);
 
-            return stringToken;
+            return jwtToken;
+        }
+
+        public string GetUserName(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+
+            JwtSecurityToken jwtToken = handler.ReadJwtToken(token);
+
+            var userName = jwtToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
+
+            return userName;
         }
     }
 }

@@ -11,7 +11,9 @@ namespace PersonService
         {
             var jwtConfig = builder.Configuration.GetSection("Jwt").Get<JwtConfiguration>();
 
+            if(jwtConfig != null)
             builder.Services.AddSingleton(jwtConfig);
+
             builder.Services.AddSingleton<ISecurityHelper, SecurityHelper>();
 
             builder.Services.AddBllServices();
