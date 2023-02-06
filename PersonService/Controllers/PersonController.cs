@@ -26,6 +26,7 @@ namespace PersonService.Controllers
 
 
         [HttpGet]
+        [RequiredAccessPoints(AccessPoint.PersonController)]
         public async Task<IEnumerable<PersonCreateViewModel>> GetAll(CancellationToken cancellationToken)
         {
             return _mapper.Map<IEnumerable<PersonCreateViewModel>>(await _personService.GetAllAsync(cancellationToken));
