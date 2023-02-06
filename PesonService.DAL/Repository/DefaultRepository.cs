@@ -14,7 +14,7 @@ namespace PesonService.DAL.Repository
             _dbContext = dbContext;
         }
 
-        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public virtual async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var entity = await Table.FirstAsync(entity => entity.Id == id, cancellationToken);
 
@@ -23,26 +23,26 @@ namespace PesonService.DAL.Repository
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<T?> GetAsync(Guid id, CancellationToken cancellationToken)
+        public virtual async Task<T?> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var entity = await Table.FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
 
             return entity;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)
+        public virtual IQueryable<T> GetAll()
         {
-            return await Table.ToListAsync(cancellationToken);
+            return Table;
         }
 
-        public async Task InsertAsync(T entity, CancellationToken cancellationToken)
+        public virtual async Task InsertAsync(T entity, CancellationToken cancellationToken)
         {
             Table.Add(entity);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task UpdateAsync(T entity, CancellationToken cancellationToken)
+        public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken)
         {
             Table.Update(entity);
 

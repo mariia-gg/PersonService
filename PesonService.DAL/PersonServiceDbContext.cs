@@ -19,16 +19,16 @@ namespace PesonService.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<AccessPointEntity>().HasData(new []
+            modelBuilder.Entity<AccessPointEntity>().HasData(new[]
             {
-                new AccessPointEntity { 
-                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.PersonController), 
-                    ControllerName = "PersonController" 
+                new AccessPointEntity {
+                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.PersonController),
+                    ControllerName = "PersonController"
                 },
-                new AccessPointEntity 
-                { 
-                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.SecurityController), 
-                    ControllerName = "SecurityController" 
+                new AccessPointEntity
+                {
+                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.SecurityController),
+                    ControllerName = "SecurityController"
                 }
             });
         }
@@ -36,6 +36,11 @@ namespace PesonService.DAL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=localhost;Database=PersonService;Trusted_Connection=True;TrustServerCertificate=True");
+
+#if DEBUG
+            optionsBuilder.LogTo(Console.WriteLine);
+            optionsBuilder.EnableSensitiveDataLogging();
+#endif
         }
     }
 }

@@ -4,7 +4,7 @@
     {
         Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
+        IQueryable<TEntity> GetAll();
 
         Task InsertAsync(TEntity entity, CancellationToken cancellationToken);
 

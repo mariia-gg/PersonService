@@ -12,7 +12,7 @@ namespace PersonService
         {
             services.AddDbContext<PersonServiceDbContext>();
             services.AddScoped<IRepository<PersonEntity>, DefaultRepository<PersonEntity>>();
-            services.AddScoped<IRepository<UserEntity>, DefaultRepository<UserEntity>>();
+            services.AddScoped<IRepository<UserEntity>, UserRepository>();
         }
     }
 }

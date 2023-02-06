@@ -19,7 +19,7 @@ namespace PersonService.BLL.Service
 
         public async Task<IEnumerable<PersonDto>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var persons = await _repository.GetAllAsync(cancellationToken);
+            var persons = _repository.GetAll();
 
             return _mapper.Map<IEnumerable<PersonDto>>(persons);
         }

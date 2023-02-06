@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PersonService.Attributes;
 using PersonService.BLL.Contract;
 using PersonService.BLL.DTO;
+using PersonService.Common.Security;
 using PersonService.Model;
 
 namespace PersonService.Controllers
@@ -10,6 +12,7 @@ namespace PersonService.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [RequiredAccessPoints(AccessPoint.PersonController)]
     public class PersonController : ControllerBase
     {
         private readonly IPersonService _personService;
@@ -35,11 +38,5 @@ namespace PersonService.Controllers
 
             return id;
         }
-
-        //[HttpGet("{id}")]
-        //public IActionResult Get(Guid id)
-        //{
-        //    return Ok(null);
-        //}
     }
 }
