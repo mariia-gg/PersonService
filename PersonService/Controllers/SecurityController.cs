@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PersonService.Attributes;
 using PersonService.BLL.Contract;
+using PersonService.Common.Security;
 using PersonService.Helpers;
 using PersonService.Model;
 
@@ -8,6 +10,7 @@ namespace PersonService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [RequiredAccessPoints(AccessPoint.SecurityController)]
     public class SecurityController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -22,7 +25,7 @@ namespace PersonService.Controllers
 
         [AllowAnonymous]
         [HttpPost("createToken")]
-        public IResult GenerateToken(TokenRequestViewModel user, CancellationToken cancellationToken)
+        public IResult GenerateToken(TokenRequestViewModel user)
         {
             if (_userService.IsValidUser(user.UserName, user.Password))
             {

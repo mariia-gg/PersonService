@@ -1,4 +1,5 @@
-﻿using PersonService.Common.Security;
+﻿using PersonService.BLL.DTO;
+using PersonService.Common.Security;
 
 namespace PersonService.BLL.Contract
 {
@@ -6,5 +7,6 @@ namespace PersonService.BLL.Contract
     {
         bool IsValidUser(string userName, string password);
         bool HasAccessPoint(string userName, AccessPoint accessPoint);
+        Task<Guid> Create(UserDto user, CancellationToken cancellationToken);
     }
 }

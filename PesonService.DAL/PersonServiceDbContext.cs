@@ -29,6 +29,11 @@ namespace PesonService.DAL
                 {
                     Id = AccessPointDictionary.GetAccesPointId(AccessPoint.SecurityController),
                     ControllerName = "SecurityController"
+                },
+                new AccessPointEntity
+                {
+                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.UserController),
+                    ControllerName = "UserController"
                 }
             });
         }
