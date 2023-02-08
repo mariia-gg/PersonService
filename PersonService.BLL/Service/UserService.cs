@@ -1,51 +1,52 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using PersonService.BLL.Contract;
 using PersonService.BLL.DTO;
 using PersonService.Common.Security;
 using PesonService.DAL.Contract;
 using PesonService.DAL.Entity;
 
-namespace PersonService.BLL.Service
+namespace PersonService.BLL.Service;
+
+public class UserService : IUserService
 {
-    public class UserService : IUserService
+    private readonly IRepository<UserEntity> _repository;
+    private readonly IMapper _mapper;
+
+    public UserService(IRepository<UserEntity> repository, IMapper mapper)
     {
-        private readonly IRepository<UserEntity> _repository;
-        private readonly IMapper _mapper;
+        _repository = repository;
+        _mapper = mapper;
+    }
 
-        public UserService(IRepository<UserEntity> repository, IMapper mapper)
+    public bool HasAccessPoint(string userName, AccessPoint accessPoint)
+    {
+        var user = _repository.GetAll().FirstOrDefault(u => u.UserName == userName);
+
+        if (user == null)
         {
-            _repository = repository;
-            _mapper = mapper;
+            return false;
         }
 
-        public bool IsValidUser(string userName, string password)
-        {
-            bool isExists = _repository.GetAll().Any(u =>
-                u.UserName == userName
-                && u.Password == password);
+        var accessPointId = AccessPointDictionary.GetAccesPointId(accessPoint);
 
-            return isExists;
-        }
+        return user.UserAccessPoints.Any(uap => uap.AccessPointId == accessPointId);
+    }
 
-        public bool HasAccessPoint(string userName, AccessPoint accessPoint)
-        {
-            var user = _repository.GetAll().FirstOrDefault(u => u.UserName == userName);
+    public async Task<Guid> Create(UserDto user, CancellationToken cancellationToken)
+    {
+        var entityModel = _mapper.Map<UserEntity>(user);
 
-            if (user == null) return false;
+        await _repository.InsertAsync(entityModel, cancellationToken);
 
-            var accessPointId = AccessPointDictionary.GetAccesPointId(accessPoint);
+        return entityModel.Id;
+    }
 
-            return user.UserAccessPoints.Any(uap => uap.AccessPointId == accessPointId);
-        }
+    public bool IsValidUser(string userName, string password)
+    {
+        var isExists = _repository.GetAll().Any(u =>
+            u.UserName == userName
+            && u.Password == password);
 
-        public async Task<Guid> Create(UserDto user, CancellationToken cancellationToken)
-        {
-            var entityModel = _mapper.Map<UserEntity>(user);
-
-            await _repository.InsertAsync(entityModel, cancellationToken);
-
-            return entityModel.Id;
-        }
+        return isExists;
     }
 }
