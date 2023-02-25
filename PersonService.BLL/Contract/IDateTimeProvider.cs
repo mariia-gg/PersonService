@@ -1,7 +1,6 @@
-﻿namespace PersonService.BLL.Contract
+﻿namespace PersonService.BLL.Contract;
+
+public interface IDateTimeProvider
 {
-    public interface IDateTimeProvider
-    {
-        DateTime UtcNow();
-    }
+    DateTime UtcNow();
 }

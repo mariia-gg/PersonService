@@ -7,37 +7,34 @@ using PersonService.BLL.DTO;
 using PersonService.Common.Security;
 using PersonService.Model;
 
-namespace PersonService.Controllers
+namespace PersonService.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize]
+[RequiredAccessPoints(AccessPoint.PersonController)]
+public class PersonController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    [RequiredAccessPoints(AccessPoint.PersonController)]
-    public class PersonController : ControllerBase
+    private readonly IPersonService _personService;
+    private readonly IMapper _mapper;
+
+    public PersonController(IPersonService personService, IMapper mapper)
     {
-        private readonly IPersonService _personService;
-        private readonly IMapper _mapper;
-
-        public PersonController(IPersonService personService, IMapper mapper)
-        {
-            _personService = personService;
-            _mapper = mapper;
-        }
+        _personService = personService;
+        _mapper = mapper;
+    }
 
 
-        [HttpGet]
-        [RequiredAccessPoints(AccessPoint.PersonController)]
-        public async Task<IEnumerable<PersonCreateViewModel>> GetAll(CancellationToken cancellationToken)
-        {
-            return _mapper.Map<IEnumerable<PersonCreateViewModel>>(await _personService.GetAllAsync(cancellationToken));
-        }
+    [HttpGet]
+    [RequiredAccessPoints(AccessPoint.PersonController)]
+    public async Task<IEnumerable<PersonCreateViewModel>> GetAll(CancellationToken cancellationToken) =>
+        _mapper.Map<IEnumerable<PersonCreateViewModel>>(await _personService.GetAllAsync(cancellationToken));
 
-        [HttpPost]
-        public async Task<Guid> Create(PersonCreateViewModel personVm, CancellationToken cancellationToken)
-        {
-            var id = await _personService.CreateAsync(_mapper.Map<PersonDto>(personVm), cancellationToken);
+    [HttpPost]
+    public async Task<Guid> Create(PersonCreateViewModel personVm, CancellationToken cancellationToken)
+    {
+        var id = await _personService.CreateAsync(_mapper.Map<PersonDto>(personVm), cancellationToken);
 
-            return id;
-        }
+        return id;
     }
 }

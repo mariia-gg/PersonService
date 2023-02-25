@@ -2,50 +2,48 @@
 using PersonService.Common.Security;
 using PesonService.DAL.Entity;
 
-namespace PesonService.DAL
+namespace PesonService.DAL;
+
+public class PersonServiceDbContext : DbContext
 {
-    public class PersonServiceDbContext : DbContext
+    public DbSet<PersonEntity> Persons { get; set; }
+
+    public DbSet<UserEntity> Users { get; set; }
+
+    public DbSet<AccessPointEntity> AccessPoints { get; set; }
+
+    public PersonServiceDbContext()
     {
-        public PersonServiceDbContext() : base()
+        Database.Migrate();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<AccessPointEntity>().HasData(new AccessPointEntity
         {
-            Database.Migrate();
-        }
-
-        public DbSet<PersonEntity> Persons { get; set; }
-        public DbSet<UserEntity> Users { get; set; }
-        public DbSet<AccessPointEntity> AccessPoints { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+            Id = AccessPointDictionary.GetAccesPointId(AccessPoint.PersonController),
+            ControllerName = "PersonController"
+        }, new AccessPointEntity
         {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<AccessPointEntity>().HasData(new[]
-            {
-                new AccessPointEntity {
-                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.PersonController),
-                    ControllerName = "PersonController"
-                },
-                new AccessPointEntity
-                {
-                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.SecurityController),
-                    ControllerName = "SecurityController"
-                },
-                new AccessPointEntity
-                {
-                    Id = AccessPointDictionary.GetAccesPointId(AccessPoint.UserController),
-                    ControllerName = "UserController"
-                }
-            });
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            Id = AccessPointDictionary.GetAccesPointId(AccessPoint.SecurityController),
+            ControllerName = "SecurityController"
+        }, new AccessPointEntity
         {
-            optionsBuilder.UseSqlServer(@"Server=localhost;Database=PersonService;Trusted_Connection=True;TrustServerCertificate=True");
+            Id = AccessPointDictionary.GetAccesPointId(AccessPoint.UserController),
+            ControllerName = "UserController"
+        });
+    }
 
-#if DEBUG
-            optionsBuilder.LogTo(Console.WriteLine);
-            optionsBuilder.EnableSensitiveDataLogging();
-#endif
-        }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(
+            @"Server=localhost;Database=PersonService;Trusted_Connection=True;TrustServerCertificate=True");
+
+        #if DEBUG
+        optionsBuilder.LogTo(Console.WriteLine);
+        optionsBuilder.EnableSensitiveDataLogging();
+        #endif
     }
 }

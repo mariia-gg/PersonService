@@ -6,35 +6,36 @@ using PersonService.Common.Security;
 using PersonService.Helpers;
 using PersonService.Model;
 
-namespace PersonService.Controllers
+namespace PersonService.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[RequiredAccessPoints(AccessPoint.SecurityController)]
+public class SecurityController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [RequiredAccessPoints(AccessPoint.SecurityController)]
-    public class SecurityController : ControllerBase
+    private readonly IUserService _userService;
+    private readonly ISecurityHelper _securityHelper;
+
+    public SecurityController(
+        IUserService userService,
+        ISecurityHelper securityHelper
+    )
     {
-        private readonly IUserService _userService;
-        private readonly ISecurityHelper _securityHelper;
+        _userService = userService;
+        _securityHelper = securityHelper;
+    }
 
-        public SecurityController(IUserService userService,
-            ISecurityHelper securityHelper)
+    [AllowAnonymous]
+    [HttpPost("createToken")]
+    public IResult GenerateToken(TokenRequestViewModel user)
+    {
+        if (_userService.IsValidUser(user.UserName, user.Password, user.Email, user.Age))
         {
-            _userService = userService;
-            _securityHelper = securityHelper;
+            var token = _securityHelper.GetJwtToken(user.UserName);
+
+            return Results.Ok(token);
         }
 
-        [AllowAnonymous]
-        [HttpPost("createToken")]
-        public IResult GenerateToken(TokenRequestViewModel user)
-        {
-            if (_userService.IsValidUser(user.UserName, user.Password))
-            {
-                var token = _securityHelper.GetJwtToken(user.UserName);
-
-                return Results.Ok(token);
-            }
-
-            return Results.Unauthorized();
-        }
+        return Results.Unauthorized();
     }
 }

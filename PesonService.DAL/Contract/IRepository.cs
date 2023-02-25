@@ -1,15 +1,14 @@
-﻿namespace PesonService.DAL.Contract
+﻿namespace PesonService.DAL.Contract;
+
+public interface IRepository<TEntity> where TEntity : IEntity
 {
-    public interface IRepository<TEntity> where TEntity : IEntity
-    {
-        Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken);
+    Task<TEntity?> GetAsync(Guid id, CancellationToken cancellationToken);
 
-        IQueryable<TEntity> GetAll();
+    IQueryable<TEntity> GetAll();
 
-        Task InsertAsync(TEntity entity, CancellationToken cancellationToken);
+    Task InsertAsync(TEntity entity, CancellationToken cancellationToken);
 
-        Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
+    Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
 
-        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
-    }
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken);
 }

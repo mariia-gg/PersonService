@@ -18,6 +18,7 @@ public class UserService : IUserService
         _mapper = mapper;
     }
 
+
     public bool HasAccessPoint(string userName, AccessPoint accessPoint)
     {
         var user = _repository.GetAll().FirstOrDefault(u => u.UserName == userName);
@@ -41,12 +42,32 @@ public class UserService : IUserService
         return entityModel.Id;
     }
 
-    public bool IsValidUser(string userName, string password)
+    public async Task<IEnumerable<UserDto>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        var persons = _repository.GetAll();
+
+        return _mapper.Map<IEnumerable<UserDto>>(persons);
+    }
+
+    public bool IsValidUser(string userName, string password, string email, int age)
     {
         var isExists = _repository.GetAll().Any(u =>
             u.UserName == userName
-            && u.Password == password);
+            && u.Password == password
+            && u.Email == email
+            && u.Age == age);
 
         return isExists;
     }
-}
+
+    public Task<IEnumerable<UserDto>> UpdateUser(CancellationToken cancellationToken) =>
+        throw new NotImplementedException();
+
+    public object GetUsers() => throw new NotImplementedException();
+
+    public void UpdateUser(UserDto user)
+    {
+        throw new NotImplementedException();
+    }
+} 
+    
