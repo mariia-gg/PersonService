@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using PersonService.BLL.Contract;
 using PersonService.BLL.DTO;
 using PersonService.Common.Security;
@@ -63,11 +64,13 @@ public class UserService : IUserService
     public Task<IEnumerable<UserDto>> UpdateUser(CancellationToken cancellationToken) =>
         throw new NotImplementedException();
 
-    public object GetUsers() => throw new NotImplementedException();
-
     public void UpdateUser(UserDto user)
     {
         throw new NotImplementedException();
     }
+
+    public Task<IActionResult> GetUserById(Guid id) => throw new NotImplementedException();
+
+    public object GetUsers() => throw new NotImplementedException();
 } 
     

@@ -1,4 +1,5 @@
-﻿using PersonService.BLL.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
+using PersonService.BLL.DTO;
 using PersonService.Common.Security;
 
 namespace PersonService.BLL.Contract;
@@ -15,7 +16,8 @@ public interface IUserService
 
     Task<IEnumerable<UserDto>> UpdateUser(CancellationToken cancellationToken);
 
-    object GetUsers();
+
+    Task<IActionResult> GetUserById(Guid id);
 
     void UpdateUser(UserDto user);
 } 
